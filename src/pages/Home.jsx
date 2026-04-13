@@ -50,7 +50,7 @@ const Home = ({ onSelect }) => (
       <div className="flex items-center gap-2 opacity-60">
         <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
         <span className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest">
-          Network: Operational
+          makkunii
         </span>
       </div>
     </div>
