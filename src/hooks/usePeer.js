@@ -16,7 +16,15 @@ export const usePeer = (isHost, id, isLocked) => {
   }, [isLocked]);
 
   useEffect(() => {
-    const peer = new Peer(id);
+    const peer = new Peer(id, {
+    config: {
+      'iceServers': [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' },
+        { urls: 'stun:stun2.l.google.com:19302' },
+      ]
+    }
+  });
     peerRef.current = peer;
 
     peer.on('open', (newId) => setPeerId(newId));
