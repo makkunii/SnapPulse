@@ -17,7 +17,7 @@ const Home = ({ onSelect }) => (
       
       {/* Title: Scaled down for mobile (text-6xl) and up for desktop (md:text-8xl) */}
       <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter text-white leading-[0.85]">
-        SNAP<span className="text-blue-600">SHARE</span>
+        Snap<span className="text-blue-600">Pulse</span>
       </h1>
       
       <p className="text-zinc-500 max-w-[280px] md:max-w-xs mx-auto text-xs md:text-sm font-medium leading-relaxed">
