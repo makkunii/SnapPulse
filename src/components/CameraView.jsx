@@ -54,6 +54,19 @@ const CameraView = ({ onSend, isLocked, facingMode, onToggleCamera }) => {
     setTimeout(() => requestPermission(), 50);
   };
 
+  const saveToDevice = () => {
+    const dataToSave = photo || videoBlob;
+    if (!dataToSave) return;
+
+    const link = document.createElement('a');
+    link.href = dataToSave;
+    // This creates a unique filename like snappulse_1712345678.jpg
+    link.download = `snappulse_${Date.now()}.${photo ? 'jpg' : 'mp4'}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="fixed inset-0 bg-black flex flex-col items-center overflow-hidden touch-none font-sans">
       {(!photo && !videoBlob) ? (
@@ -138,7 +151,7 @@ const CameraView = ({ onSend, isLocked, facingMode, onToggleCamera }) => {
       ) : (
         /* Preview State */
         <div className="relative h-full w-full bg-black flex flex-col items-center animate-in fade-in zoom-in-95 duration-500">
-          <div className="w-full h-full p-4 pt-12 pb-48">
+          <div className="w-full h-full p-4 pt-20 pb-55">
              <div className="relative w-full h-full rounded-[3rem] overflow-hidden bg-zinc-900 shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-white/10">
                {photo ? (
                  <img src={photo} className={`h-full w-full object-cover ${facingMode === 'user' ? '-scale-x-100' : ''}`} alt="" />
@@ -157,6 +170,22 @@ const CameraView = ({ onSend, isLocked, facingMode, onToggleCamera }) => {
           
           {/* Action Drawer */}
           <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/90 to-transparent p-10 flex flex-col items-center">
+            
+            {/* --- NEW SAVE BUTTON --- */}
+            {!isSending && !isLocked && (
+              <button 
+                onClick={saveToDevice}
+                className="mb-6 flex items-center gap-2 text-white/40 hover:text-white transition-all text-[10px] font-black uppercase tracking-[0.3em] group active:scale-95"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-y-0.5 transition-transform">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Save to my phone
+              </button>
+            )}
+
             <button 
               onClick={async (e) => { 
                 if (e) { e.stopPropagation(); e.preventDefault(); }
@@ -201,6 +230,7 @@ const CameraView = ({ onSend, isLocked, facingMode, onToggleCamera }) => {
               Discard and Retake
             </button>
           </div>
+
         </div>
       )}
 

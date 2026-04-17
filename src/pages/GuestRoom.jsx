@@ -18,6 +18,8 @@ const GuestRoom = ({ onBack }) => {
   const [showEndModal, setShowEndModal] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
 
+  const [localGallery, setLocalGallery] = useState([]);
+
   useEffect(() => {
     if (!incomingData) return;
 
@@ -77,6 +79,17 @@ const GuestRoom = ({ onBack }) => {
         data: photoData,
         peerId: peerId 
       });
+
+      const newEntry = {
+      id: Date.now(),
+      data: photoData,
+      type: photoData.startsWith('data:video') ? 'video' : 'photo'
+    };
+
+    const updatedGallery = [newEntry, ...localGallery].slice(0, 10); // Keep last 10
+    setLocalGallery(updatedGallery);
+    localStorage.setItem(`gallery_${targetCode}`, JSON.stringify(updatedGallery));
+
     } catch (err) {
       alert("Host disconnected.");
       setIsProcessing(false);
